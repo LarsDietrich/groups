@@ -45,6 +45,16 @@ abstract class Application_Model_RowMapperAbstract
     
     public function findByExample(Application_Model_RowAbstract $row)
     {
+        $props = get_class_vars($row);
+        $exampleProps = array();
+        $sql = $this->getDbTable()->select();
+        $count = 0;
+        foreach($props as $property=>$value){
+             $sql->where ("$property = ?",$value);
+        }
+        
+        return $sql->query();
+        
         
         
     }
