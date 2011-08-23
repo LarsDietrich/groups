@@ -12,7 +12,7 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         $testMap = new Application_Model_SiteUsersMapper();
-        $row = $testMap->findWherePriKeyEquals("1");
+        $row = $testMap->findWherePriKeyEquals(1);
         print_r($row);
         echo $row->secondname;
         

@@ -69,7 +69,7 @@ abstract class Application_Model_RowMapperAbstract
         $props = get_object_vars($row);
         $sql = $this->getDbTable()->select();
         foreach($props as $property=>$value){
-            if(!NULL === $value)
+            if(!NULL == $value)
                 $sql->where(''.$property.' = ?',$value);
         }
         
@@ -92,7 +92,7 @@ abstract class Application_Model_RowMapperAbstract
         $props = get_object_vars($row);
         $sql = $this->getDbTable()->select();
         foreach($props as $property=>$value){
-            if(! NULL === $value)
+            if(! NULL == $value)
                 $sql->where(''.$property.' = ?',$value);
         }
         
@@ -119,9 +119,10 @@ abstract class Application_Model_RowMapperAbstract
             //update
             $updateData = array();
             foreach($data as $property=>$value){
-                if(!NULL === $value)
+                if(!NULL == $value)
                     $updateData[$property]=$value;
             }
+            
             $this->getDbTable()->update($updateData, ''.$prikey.'='.$row->$prikey.'');
         }else{
             //insert
@@ -137,6 +138,7 @@ abstract class Application_Model_RowMapperAbstract
      * the value is the value of the primary key set for the row 
      */
     public function findWherePriKeyEquals($value){
+        
         $row = $this->getDbTable()->find($value);
         $ret = $row->current();
         return new $this->_model($ret->toArray());
