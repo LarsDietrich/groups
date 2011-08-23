@@ -15,7 +15,42 @@
       </controllersDirectory>
       <formsDirectory enabled="false"/>
       <layoutsDirectory enabled="false"/>
-      <modelsDirectory/>
+      <modelsDirectory>
+        <dbTableDirectory>
+          <dbTableFile dbTableName="Siteusers"/>
+          <dbTableFile dbTableName="Venues"/>
+          <dbTableFile dbTableName="Comments"/>
+          <dbTableFile dbTableName="Events"/>
+          <dbTableFile dbTableName="Groups"/>
+          <dbTableFile dbTableName="Invites"/>
+          <dbTableFile dbTableName="Locations"/>
+          <dbTableFile dbTableName="MemberPermissions"/>
+          <dbTableFile dbTableName="Members"/>
+          <dbTableFile dbTableName="RSVP"/>
+        </dbTableDirectory>
+        <modelFile modelName="SiteUsersMapper"/>
+        <modelFile modelName="SiteUsers"/>
+        <modelFile modelName="RowMapperAbstract"/>
+        <modelFile modelName="RowAbstract"/>
+        <modelFile modelName="Venues"/>
+        <modelFile modelName="RSVP"/>
+        <modelFile modelName="Members"/>
+        <modelFile modelName="MemberPermissions"/>
+        <modelFile modelName="Locations"/>
+        <modelFile modelName="Invites"/>
+        <modelFile modelName="Groups"/>
+        <modelFile modelName="Events"/>
+        <modelFile modelName="Comments"/>
+        <modelFile modelName="CommentsMapper"/>
+        <modelFile modelName="EventsMapper"/>
+        <modelFile modelName="GroupdMapper"/>
+        <modelFile modelName="InvitesMapper"/>
+        <modelFile modelName="LocationsMapper"/>
+        <modelFile modelName="MemberPermissionsMapper"/>
+        <modelFile modelName="MembersMapper"/>
+        <modelFile modelName="RSVPMapper"/>
+        <modelFile modelName="VenuesMapper"/>
+      </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>
         <viewScriptsDirectory>

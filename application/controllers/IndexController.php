@@ -11,6 +11,9 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        $testMap = new Application_Model_SiteUsersMapper();
+        $row = $testMap->findWherePriKeyEquals("1");
+        print_r($row);
         
     }
 
