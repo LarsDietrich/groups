@@ -13,10 +13,16 @@ class IndexController extends Zend_Controller_Action
         // action body
         $testMap = new Application_Model_SiteUsersMapper();
         $row = $testMap->findWherePriKeyEquals("1");
+        print_r($row);
         echo $row->secondname;
         
-        $newRow =$testMap->findByExample($row);
-        echo $newRow->secondname;
+        $row->secondname = "changedtothis";
+        
+        $testMap->saveUpdate($row);
+        
+        
+        $newRow =$testMap->findRowByExample($row);
+       print_r($newRow);
         
         
         

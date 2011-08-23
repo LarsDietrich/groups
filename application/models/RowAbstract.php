@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @author Craig Brookes
+ * All Model classes should extend this class
+ */
 abstract class Application_Model_RowAbstract
 {
     /**

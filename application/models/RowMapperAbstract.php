@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @author Craig Brookes
+ * 
+ * All Data Mapper classes for the application
+ * should extend this base class
+ */
+
+
 abstract class Application_Model_RowMapperAbstract
 {
 
@@ -10,7 +18,12 @@ abstract class Application_Model_RowMapperAbstract
     protected $_dbTable;
     protected $_model;
     
-    
+    /**
+     *
+     * @param String $tableName
+     * @param String $model 
+     * sets up the Zend_Db_Table to be queried
+     */
     public function __construct($tableName, $model = "stdClass") {
         $this->setDbTable($tableName);
         $this->_model = $model;
@@ -31,7 +44,8 @@ abstract class Application_Model_RowMapperAbstract
  
     /**
      *
-     * @return Zend_Db_Table_Abstract
+     * @return Zend_Db_Table_Abstract 
+     * return concrete child
      */
     public function getDbTable()
     {
@@ -42,32 +56,90 @@ abstract class Application_Model_RowMapperAbstract
         return $this->_dbTable;
     }
     
-    
-    public function findByExample(Application_Model_RowAbstract $row)
+    /**
+     *
+     * @param Application_Model_RowAbstract $row
+     * @return Application_Model_RowAbstract
+     * returns a concrete child 
+     */
+    public function findAllByExample(Application_Model_RowAbstract $row)
     {
-        $props = get_class_vars($row);
-        $exampleProps = array();
+        $props = get_object_vars($row);
         $sql = $this->getDbTable()->select();
-        $count = 0;
         foreach($props as $property=>$value){
-             $sql->where ("$property = ?",$value);
+            if($value != NULL)
+                $sql->where(''.$property.' = ?',$value);
         }
         
-        return $sql->query();
-        
-        
-        
+               
+        $rows =  $sql->query()->fetchAll();
+        $ret = array();
+        foreach($rows as $row){
+            $ret[]= new $this->_model($row);
+        }
+        return $ret;
+
     }
     
-    public function saveUpdate(Application_Model_RowAbstract $row)
-    {
+    /**
+     *
+     * @param Application_Model_RowAbstract $row
+     * @return Application_Model_RowAbstract
+     * returns a concrete child 
+     */
+    public function findRowByExample(Application_Model_RowAbstract $row){
+        $props = get_object_vars($row);
+        $sql = $this->getDbTable()->select();
+        foreach($props as $property=>$value){
+            if($value != NULL)
+                $sql->where(''.$property.' = ?',$value);
+        }
         
+        $sql->limit(1);       
+        $rows =  $sql->query()->fetchObject($this->_model);
+        return $rows;
     }
 
 
+    /**
+     *
+     * @param Application_Model_RowAbstract $row 
+     * 
+     * chooses to save or update based on whether the primary key is set or not
+     */
+    public function saveUpdate(Application_Model_RowAbstract $row)
+    {
+        //get pri key
+        $prikey = $this->getDbTable()->get_primary();
+        $prikey = $prikey[1];
+        if(isset($row->$prikey)){
+            //update
+            $data = get_object_vars($row);
+            $updateData = array();
+            foreach($data as $property=>$value){
+                if($value != NULL)
+                    $updateData[$property]=$value;
+            }
+            $this->getDbTable()->update($updateData, ''.$prikey.'='.$row->$prikey.'');
+        }else{
+            //insert
+            $data = get_object_vars($row);
+            $this->getDbTable()->insert($data);
+        }
+        
+    }
+
+    /**
+     *
+     * @param mixed $value
+     * @return Application_Model_RowAbstract
+     * the value is the value of the primary key set for the row 
+     */
     public function findWherePriKeyEquals($value){
         $row = $this->getDbTable()->find($value);
-        return $row;
+        $ret = $row->current();
+        
+        return new $this->_model($ret->toArray());
         
     }
 
