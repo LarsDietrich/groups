@@ -43,5 +43,15 @@ abstract class Application_Model_RowAbstract
            
     }
     
+    public function isEmpty()
+    {
+        $properties = get_object_vars($this);
+        foreach($properties as $property=>$value){
+            if(!NULL === $value)
+                return false;
+        }
+        return true;
+    }
+    
 }
 
