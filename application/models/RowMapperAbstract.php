@@ -143,8 +143,10 @@ abstract class Application_Model_RowMapperAbstract
             $this->getDbTable()->update($updateData, ''.$prikey.'='.$row->$prikey.'');
         }else{
             //insert
-            $this->getDbTable()->insert($data);
+            $row->id = $this->getDbTable()->insert($data);
         }
+        
+        return $this->findWherePriKeyEquals($row->id);
         
     }
 

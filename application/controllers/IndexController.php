@@ -12,6 +12,10 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         echo "<pre>";
+        
+        $location =new Application_Model_Locations();
+        $location->populateLocationFromAddress("co. Waterford");
+        
         $testMap = new Application_Model_SiteUsersMapper();
         $row = $testMap->findWherePriKeyEquals(1);
         $row->getGroups();
