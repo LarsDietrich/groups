@@ -3,7 +3,7 @@
 class Application_Model_Locations extends Application_Model_RowAbstract
 {
 
-    public $id,$latitude,$longitude,$address,$county;
+    public $id,$latitude,$longitude,$address,$county,$hashid;
     
     const GOOGLE_MAPS_URL = "http://maps.googleapis.com/maps/api/geocode/json";
     
@@ -27,7 +27,11 @@ class Application_Model_Locations extends Application_Model_RowAbstract
         return $this->county;
     }
 
-        
+    public function getHashid() {
+        return $this->hashid;
+    }
+
+            
     
     
     public function populateLocationFromAddress($address)
@@ -38,21 +42,24 @@ class Application_Model_Locations extends Application_Model_RowAbstract
                 ->setParameterGet("region", "IE");
         $result = $httpClient->request('GET');
         $response = Zend_Json_Decoder::decode($result->getBody(),Zend_Json::TYPE_OBJECT);
-        print_r($response);
         if($response->status == "OK"){
          $res = $response->results[0];   
          $this->longitude = $res->geometry->location->lng;
          $this->latitude = $res->geometry->location->lat;
          $this->address = $address;
+         $this->hashid = md5($this->latitude.$this->longitude);
+         return TRUE;
         }
+        return FALSE;
 
-                
     }
     
     
     public function populateLocationFromCounty()
     {
+        $fullAddress = $this->address;
         return $this->populateLocationFromAddress("co. ".$this->county);
+        $this->address = $fullAddress;
     }
 
 

@@ -18,6 +18,7 @@
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Join"/>
+        <formFile formName="Signin"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>

@@ -3,7 +3,7 @@
 class Application_Model_SiteUsers extends Application_Model_RowAbstract
 {
 
-    public $id,$firstname,$handle,$secondname,$email,$location_id, $added, $lastlogin;
+    public $id,$firstname,$handle,$secondname,$email,$location_id, $added, $lastlogin,$password;
     
     protected $groups, $members;
     
@@ -38,7 +38,12 @@ class Application_Model_SiteUsers extends Application_Model_RowAbstract
     public function getLastlogin() {
         return $this->lastlogin;
     }
+    
+    public function getPassword() {
+        return $this->password;
+    }
 
+    
     /**
      *
      * @return array
@@ -75,6 +80,24 @@ class Application_Model_SiteUsers extends Application_Model_RowAbstract
             $this->members = $mapper->findAllByFieldsAndValues(array("user_id"=>$this->id));
         }
         return $this->members;
+    }
+    
+    public function equals(Application_Model_RowAbstract $row) {
+        if($row instanceof Application_Model_SiteUsers && $this->handle == $row->handle)
+            return true;
+        else
+            return false;
+    }
+
+
+    public static function validateSiteUser(Application_Model_SiteUsers $user)
+    {
+        $mapper = new Application_Model_SiteUsersMapper();
+        $otherUser = $mapper->findWherePriKeyEquals($user->id);
+        if($user->equals($otherUser))
+            return true;
+        else
+            return false;
     }
 
 

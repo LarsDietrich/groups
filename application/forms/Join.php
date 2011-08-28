@@ -1,0 +1,91 @@
+<?php
+
+class Application_Form_Join extends Zend_Form
+{
+
+    public function init()
+    {
+        /* Form Elements & Other Definitions Here ... */
+        $this->setMethod("POST")->setAction("siteuser/create");
+        $firstNameElement = new Zend_Form_Element_Text("firstname");
+        $firstNameElement->setLabel("First Name")
+                ->setOptions(array("size"=>"35"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addValidator("Alpha",TRUE)
+                ->addFilter(new Zend_Filter_StripTags())
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $secondNameElement = new Zend_Form_Element_Text("secondname");
+        $secondNameElement->setLabel("Second Name")
+                ->setOptions(array("size"=>"35"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addValidator("Alpha",TRUE)
+                ->addFilter(new Zend_Filter_StripTags())
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $handleElement = new Zend_Form_Element_Text("handle");
+        $handDbValidator = new Zend_Validate_Db_NoRecordExists('siteusers','handle');
+        $handDbValidator->setMessage("That username already exists");
+        $handleElement->setLabel("Username")
+                ->setOptions(array("size"=>"35","maxlength"=>"10"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addFilter(new Zend_Filter_Alnum(false))
+                ->addFilter(new Zend_Filter_StripTags())
+                ->addValidator($handDbValidator)
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $emailElement = new Zend_Form_Element_Text("email");
+        $emailElement->setLabel("Email Address")
+                ->setOptions(array("size"=>"35"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addValidator(new Zend_Validate_EmailAddress())
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $passwordElement = new Zend_Form_Element_Password("password");
+        $passwordElement->setLabel("Password")
+                ->addValidator(new Zend_Validate_StringLength(5));
+        
+        $address1 = new Zend_Form_Element_Text("address1");
+        $address1->setLabel("Address")
+                ->setOptions(array("size"=>"35"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addValidator(new Zend_Validate_Alnum(true))
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $address2 = new Zend_Form_Element_Text("address2");
+        $address2->setLabel("Address")
+                ->setOptions(array("size"=>"35"))
+                ->setRequired(TRUE)
+                ->addValidator("NotEmpty",TRUE)
+                ->addValidator(new Zend_Validate_Alnum(true))
+                ->addFilter(new Zend_Filter_StringTrim());
+        
+        $county = new Zend_Form_Element_Select("county");
+        $counties = Zend_Registry::get("counties");
+        if($counties){
+            $mOptions = array(""=>"please select one");
+            foreach($counties as $c){
+                $mOptions[$c]=$c;
+            }
+        }
+        $county->setMultiOptions($mOptions);
+        $county->setRequired(TRUE);
+        $county->addValidator("inArray", FALSE, $mOptions);
+        $county->setLabel("County");
+        
+        
+        $submit = new Zend_Form_Element_Submit("Join");
+        
+        
+        $this->addElements(array($firstNameElement,$secondNameElement,$handleElement,$passwordElement,$emailElement,$address1,$address2,$county,$submit));
+        
+    }
+
+
+}
+

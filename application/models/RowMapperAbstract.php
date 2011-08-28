@@ -113,9 +113,11 @@ abstract class Application_Model_RowMapperAbstract
                 $sql->where(''.$property.' = ?',$value);
         }
         
-        $sql->limit(1);       
-        $rows =  $sql->query()->fetchObject($this->_model);
-        return $rows;
+        $sql->limit(1);  
+
+        $row =  $sql->query()->fetchObject($this->_model);
+        if(!$row)$row = new $this->_model();
+        return $row;
     }
 
 

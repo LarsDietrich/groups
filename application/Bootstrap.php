@@ -14,6 +14,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $route = new Zend_Controller_Router_Route('/join', array("controller"=>"siteuser"));
         $router->addRoute("join",$route);
+        
+        $route = new Zend_Controller_Router_Route('/dashboard',array("controller"=>"siteuser","action"=>"dashboard"));
+        $router->addRoute("dashboard",$route);
+        
+        $route = new Zend_Controller_Router_Route('/signin',array("controller"=>"siteuser","action"=>"signin"));
+        $router->addRoute("signin",$route);
     }
     
     protected function _initRegisteryValues()
@@ -27,6 +33,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $session = new Zend_Session_Namespace("user");
         Zend_Registry::set("user_session", $session);
     }
+    
+    
     
     
     
