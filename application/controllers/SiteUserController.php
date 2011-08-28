@@ -11,22 +11,26 @@ class SiteUserController extends Zend_Controller_Action
     
     public function init()
     {
-        /* Initialize action controller here */
+        /*Retrieve the common user session object added to registery in the bootstrap*/
         $this->userSession = Zend_Registry::get("user_session");
         
     }
 
     /**
-     * also mapped to /join
+     * action also mapped to url route /join
      */
     public function indexAction()
     {
-        $joinForm = ($this->userSession->joinform !=null)?unserialize($this->userSession->joinform):new Application_Form_Join();
+        $joinForm = ($this->userSession->joinform !=null) ? unserialize($this->userSession->joinform) : new Application_Form_Join();
         $this->view->joinForm = $joinForm;
         $this->userSession->joinform = null;
         
     }
     
+    /**
+     * takes the params posted from the Application_Form_Join form 
+     * checks they are valid and attempts to make a new Application_Model_SiteUsers
+     */
     public function createAction()
     {
         
@@ -42,9 +46,12 @@ class SiteUserController extends Zend_Controller_Action
                 $location = new Application_Model_Locations($this->getRequest()->getPost());
                 $location->populateLocationFromCounty();
                 
-                $fullAddress = $this->getRequest()->getParam("address1").", ".$this->getRequest()->getParam("address2");
-                $location->address = $fullAddress;
-                $location = $locationMapper->saveUpdate($location);
+                $foundLocation = $locationMapper->findRowByFieldsAndValues(array("hashid"=>$location->hashid));
+                if($foundLocation->isEmpty())
+                    $location = $locationMapper->saveUpdate($location);
+                else
+                    $location = $foundLocation;
+                
                 $user->added = date("Y-m-d h:i:s");
                 $user->location_id = $location->id;
                 $user = $userMapper->saveUpdate($user);
@@ -65,17 +72,12 @@ class SiteUserController extends Zend_Controller_Action
         
     }
     
-    public function dashboardAction()
-    {
-        if($this->userSession->userDetails)
-        {
-            $this->view->userDetails = $this->userSession->userDetails;
-        }else{
-            $this->_helper->redirector("signin",array("prependBase"=>false));
-        }
-            
-    }
     
+    
+    /**
+     * Attempts to sign in a user before
+     * sending them on to the dashboard
+     */
     public function signinAction()
     {
         $form = new Application_Form_Signin();
@@ -104,6 +106,9 @@ class SiteUserController extends Zend_Controller_Action
         }
     }
     
+    /**
+     * kills the session values and redirects
+     */
     public function signoutAction()
     {
         $this->userSession->unsetAll();

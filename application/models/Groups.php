@@ -4,7 +4,7 @@ class Application_Model_Groups extends Application_Model_RowAbstract
 {
 
 
-    public $id, $owner_id,$added,$name,$status,$tags, $location_id,$category,$description;
+    public $id, $owner_id,$added,$name,$status,$tags, $location_id,$category,$description, $url;
     
     protected $owner, $location,$events,$members;
     
@@ -52,7 +52,23 @@ class Application_Model_Groups extends Application_Model_RowAbstract
         return $this->description;
     }
 
+    public function getUrl() {
+        return $this->url;
+    }
+    
+    
+    
+    public function createGroupUrl()
+    {
+        if(! isset($this->name) )
+                throw new Application_Exception_ModelException ("no name set for creating a url from ".__CLASS__."::name must be set");
         
+        $this->url =  preg_replace('/[^A-Za-z0-9_-]+/', '-', $this->name);
+        
+        
+    }
+
+            
     /**
      *
      * @return Application_Model_SiteUsers 

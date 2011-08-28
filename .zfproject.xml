@@ -15,6 +15,13 @@
         <controllerFile controllerName="SiteUser">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Dashboard">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Group">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="event"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Join"/>
@@ -72,6 +79,15 @@
           <viewControllerScriptsDirectory forControllerName="siteuser">
             <viewScriptFile forActionName="create"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Dashboard">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Group">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Group">
+            <viewScriptFile forActionName="event"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -107,6 +123,8 @@
         <testApplicationBootstrapFile filesystemName="bootstrap.php"/>
         <testApplicationControllerDirectory>
           <testApplicationControllerFile filesystemName="SiteUserControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="DashboardControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="GroupControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

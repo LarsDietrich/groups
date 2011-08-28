@@ -97,6 +97,23 @@ abstract class Application_Model_RowMapperAbstract
         }
         return $ret;
     }
+    
+    /**
+     *
+     * @param array $fieldsAndValues
+     * @return Application_Model_RowAbstract 
+     */
+    public function findRowByFieldsAndValues(array $fieldsAndValues = array())
+    {
+        $sql = $this->getDbTable()->select();
+        foreach($fieldsAndValues as $field=>$value)
+        {
+            $sql->where(''.$field.'=?',$value);
+        }
+        $row = $sql->query()->fetchObject($this->_model);
+        if(!$row)$row = new $this->_model();
+        return $row;
+    }
 
 
     /**

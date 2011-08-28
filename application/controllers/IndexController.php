@@ -12,7 +12,12 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
         
-       
+       $mapper = new Application_Model_GroupsMapper();
+       $group = $mapper->findWherePriKeyEquals(1);
+       $group->createGroupUrl();
+       echo"<pre>";
+       print_r($group);
+       echo "</pre>";
        
         
         

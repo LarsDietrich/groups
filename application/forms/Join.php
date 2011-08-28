@@ -9,7 +9,7 @@ class Application_Form_Join extends Zend_Form
         $this->setMethod("POST")->setAction("siteuser/create");
         $firstNameElement = new Zend_Form_Element_Text("firstname");
         $firstNameElement->setLabel("First Name")
-                ->setOptions(array("size"=>"35"))
+                ->setOptions(array("size"=>"35","class"=>"textinput","placeholder"=>"First Name"))
                 ->setRequired(TRUE)
                 ->addValidator("NotEmpty",TRUE)
                 ->addValidator("Alpha",TRUE)
@@ -18,7 +18,7 @@ class Application_Form_Join extends Zend_Form
         
         $secondNameElement = new Zend_Form_Element_Text("secondname");
         $secondNameElement->setLabel("Second Name")
-                ->setOptions(array("size"=>"35"))
+                ->setOptions(array("size"=>"35","class"=>"textinput","placeholder"=>"Second Name"))
                 ->setRequired(TRUE)
                 ->addValidator("NotEmpty",TRUE)
                 ->addValidator("Alpha",TRUE)
@@ -29,7 +29,7 @@ class Application_Form_Join extends Zend_Form
         $handDbValidator = new Zend_Validate_Db_NoRecordExists('siteusers','handle');
         $handDbValidator->setMessage("That username already exists");
         $handleElement->setLabel("Username")
-                ->setOptions(array("size"=>"35","maxlength"=>"10"))
+                ->setOptions(array("size"=>"35","maxlength"=>"10","class"=>"textinput","placeholder"=>"Username"))
                 ->setRequired(TRUE)
                 ->addValidator("NotEmpty",TRUE)
                 ->addFilter(new Zend_Filter_Alnum(false))
@@ -39,32 +39,18 @@ class Application_Form_Join extends Zend_Form
         
         $emailElement = new Zend_Form_Element_Text("email");
         $emailElement->setLabel("Email Address")
-                ->setOptions(array("size"=>"35"))
+                ->setOptions(array("size"=>"35","class"=>"textinput","placeholder"=>"Email Address"))
                 ->setRequired(TRUE)
                 ->addValidator("NotEmpty",TRUE)
                 ->addValidator(new Zend_Validate_EmailAddress())
                 ->addFilter(new Zend_Filter_StringTrim());
         
-        $passwordElement = new Zend_Form_Element_Password("password");
+        $passwordElement = new Zend_Form_Element_Password("password",array("size"=>"35","class"=>"textinput","placeholder"=>"Password (at least 5 chars)"));
         $passwordElement->setLabel("Password")
+                ->setRequired()
                 ->addValidator(new Zend_Validate_StringLength(5));
         
-        $address1 = new Zend_Form_Element_Text("address1");
-        $address1->setLabel("Address")
-                ->setOptions(array("size"=>"35"))
-                ->setRequired(TRUE)
-                ->addValidator("NotEmpty",TRUE)
-                ->addValidator(new Zend_Validate_Alnum(true))
-                ->addFilter(new Zend_Filter_StringTrim());
-        
-        $address2 = new Zend_Form_Element_Text("address2");
-        $address2->setLabel("Address")
-                ->setOptions(array("size"=>"35"))
-                ->setRequired(TRUE)
-                ->addValidator("NotEmpty",TRUE)
-                ->addValidator(new Zend_Validate_Alnum(true))
-                ->addFilter(new Zend_Filter_StringTrim());
-        
+               
         $county = new Zend_Form_Element_Select("county");
         $counties = Zend_Registry::get("counties");
         if($counties){
@@ -82,7 +68,7 @@ class Application_Form_Join extends Zend_Form
         $submit = new Zend_Form_Element_Submit("Join");
         
         
-        $this->addElements(array($firstNameElement,$secondNameElement,$handleElement,$passwordElement,$emailElement,$address1,$address2,$county,$submit));
+        $this->addElements(array($firstNameElement,$secondNameElement,$handleElement,$passwordElement,$emailElement,$county,$submit));
         
     }
 

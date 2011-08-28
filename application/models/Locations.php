@@ -3,7 +3,7 @@
 class Application_Model_Locations extends Application_Model_RowAbstract
 {
 
-    public $id,$latitude,$longitude,$address,$county,$hashid;
+    public $id,$latitude,$longitude,$county,$hashid;
     
     const GOOGLE_MAPS_URL = "http://maps.googleapis.com/maps/api/geocode/json";
     
@@ -19,9 +19,6 @@ class Application_Model_Locations extends Application_Model_RowAbstract
         return $this->longitude;
     }
 
-    public function getAddress() {
-        return $this->address;
-    }
     
     public function getCounty() {
         return $this->county;
@@ -46,7 +43,6 @@ class Application_Model_Locations extends Application_Model_RowAbstract
          $res = $response->results[0];   
          $this->longitude = $res->geometry->location->lng;
          $this->latitude = $res->geometry->location->lat;
-         $this->address = $address;
          $this->hashid = md5($this->latitude.$this->longitude);
          return TRUE;
         }
@@ -55,11 +51,17 @@ class Application_Model_Locations extends Application_Model_RowAbstract
     }
     
     
-    public function populateLocationFromCounty()
+    public function populateLocationFromCounty($county = NULL)
     {
-        $fullAddress = $this->address;
-        return $this->populateLocationFromAddress("co. ".$this->county);
-        $this->address = $fullAddress;
+        if(NULL === $county && NULL != $this->county){
+            return $this->populateLocationFromAddress("co. ".$this->county);
+        }
+        else if(NULL != $county){
+            $county = (stripos($county, "co."))?$county:"co. ".$county;
+            return $this->populateLocationFromAddress ($county);
+        }
+        throw new Exception("no county present for ".__FUNCTION__." in ".__CLASS__);
+        
     }
 
 

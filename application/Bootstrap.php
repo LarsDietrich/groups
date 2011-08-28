@@ -15,11 +15,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $route = new Zend_Controller_Router_Route('/join', array("controller"=>"siteuser"));
         $router->addRoute("join",$route);
         
-        $route = new Zend_Controller_Router_Route('/dashboard',array("controller"=>"siteuser","action"=>"dashboard"));
+        $route = new Zend_Controller_Router_Route('/dashboard',array("controller"=>"dashboard"));
         $router->addRoute("dashboard",$route);
         
         $route = new Zend_Controller_Router_Route('/signin',array("controller"=>"siteuser","action"=>"signin"));
         $router->addRoute("signin",$route);
+        
+        
+        
+        $front->registerPlugin(new Application_Plugin_GroupFilter());
+        
+        //check if it is a group else ignore
+        
     }
     
     protected function _initRegisteryValues()
