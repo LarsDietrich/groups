@@ -1,0 +1,20 @@
+Notes on groups.ie
+
+Should use google places api for venues
+
+to debug an sql statement use the following code
+
+ $this->getDbTable()->getAdapter()->setProfiler(true);
+//execute run query
+then call
+// echo $this->getDbTable()->getAdapter()->getProfiler()->getLastQueryProfile()->getQuery();
+
+
+css and js
+
+to add js or css to a page use from controller
+$this->view->css[] = new Application_Model_Css("something.css");
+and for javascript
+$this->view->js[] = new Application_Model_Js("something.js");
+
+you can add defaults in the bootstrap.php _initLayout() I've added style.css and also the latest jquery
