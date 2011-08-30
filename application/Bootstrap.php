@@ -39,8 +39,32 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $session = new Zend_Session_Namespace("user");
         Zend_Registry::set("user_session", $session);
+        
+        $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+        Zend_Registry::set('config', $config);
     }
     
+    
+    protected function _initLayout()
+    {
+        $layout = Zend_Layout::startMvc();
+        $this->bootstrap('view');
+        $view = $this->getResource('view');
+        
+        $view->css = array(new Application_Model_Css("style.css"));
+        $exJs = new Application_Model_Js("");
+        $exJs->setFullFile("https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js");
+        $view->js = array($exJs,new Application_Model_Js("cs.js"));
+        $layout->setView($view);
+        return $layout;
+        
+    }
+    
+    
+
+
+
+
     
     
     

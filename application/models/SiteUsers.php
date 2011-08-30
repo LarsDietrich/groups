@@ -5,7 +5,7 @@ class Application_Model_SiteUsers extends Application_Model_RowAbstract
 
     public $id,$firstname,$handle,$secondname,$email,$location_id, $added, $lastlogin,$password;
     
-    protected $groups, $members;
+    protected $groups= null, $members = null;
     
     public function getId() {
         return $this->id;
@@ -50,12 +50,14 @@ class Application_Model_SiteUsers extends Application_Model_RowAbstract
      * finds the groups associated with site user 
      */
     public function getGroups() {
-        if(!isset($this->groups))
+        
+        if(null === $this->groups)
         {
             
             $this->groups = array();
             $mapper = new Application_Model_GroupsMapper();
             $mems =$this->getMembers();
+            
             
             if(is_array($mems))
             {
@@ -74,7 +76,10 @@ class Application_Model_SiteUsers extends Application_Model_RowAbstract
      * finds all members of groups made be site user 
      */
     public function getMembers() {
-        if(!isset($this->members))
+        
+        
+        
+        if(NULL === $this->members)
         {
             $mapper = new Application_Model_MembersMapper();
             $this->members = $mapper->findAllByFieldsAndValues(array("user_id"=>$this->id));

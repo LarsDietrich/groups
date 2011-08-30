@@ -85,12 +85,15 @@ abstract class Application_Model_RowMapperAbstract
     
     public function findAllByFieldsAndValues($fieldsAndValues = array())
     {
+        
         $sql = $this->getDbTable()->select();
         foreach($fieldsAndValues as $field=>$value)
         {
             $sql->where(''.$field.'=?',$value);
         }
+        
         $rows = $sql->query()->fetchAll();
+        
         $ret = array();
          foreach($rows as $row){
             $ret[]= new $this->_model($row);

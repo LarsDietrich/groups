@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of GroupFilter
+ * allows for urls to follow the format of
+ * sitename/group-name
  *
  * @author craigbrookes
  */
