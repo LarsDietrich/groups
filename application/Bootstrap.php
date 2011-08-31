@@ -54,7 +54,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->css = array(new Application_Model_Css("style.css"));
         $exJs = new Application_Model_Js("");
         $exJs->setFullFile("https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js");
-        $view->js = array($exJs,new Application_Model_Js("cs.js"));
+        $view->js = array($exJs);
         $layout->setView($view);
         return $layout;
         

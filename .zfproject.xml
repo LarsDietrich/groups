@@ -40,6 +40,7 @@
           <dbTableFile dbTableName="MemberPermissions"/>
           <dbTableFile dbTableName="Members"/>
           <dbTableFile dbTableName="RSVP"/>
+          <dbTableFile dbTableName="ActivityLog"/>
         </dbTableDirectory>
         <modelFile modelName="SiteUsersMapper"/>
         <modelFile modelName="SiteUsers"/>
@@ -63,6 +64,7 @@
         <modelFile modelName="MembersMapper"/>
         <modelFile modelName="RSVPMapper"/>
         <modelFile modelName="VenuesMapper"/>
+        <modelFile modelName="ActivityLog"/>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
       <viewsDirectory>

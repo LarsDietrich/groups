@@ -17,14 +17,27 @@
         
     </div>
     <div style="float: left; width: 620px; background-color: burlywood; height: 420px;">
-        <div style="float: left; width: inherit; height: 35px; background-color: wheat;">
+        <div class="menu" style="float: left; width: inherit; height: 35px; background-color: wheat;">
             <ul>
                 <li><a href="">Events</a></li>
+                <li><a href="">Members</a></li>
             </ul>
         </div>
         <p>some content not sure what yet</p>
     </div>
     <div style="float: left; width: 620px; background-color: cyan; height: 400px; margin-top: 10px;">
-        
+        <h3>Activity</h3>
+        <?
+        //move t
+           if($this->activegroup && is_array($this->activity[$this->activegroup->getName()]))
+           {
+               foreach($this->activity[$this->activegroup->getName()] as $activity)
+               {
+                   echo "<div style='width:inherit;'>
+                              {$activity->getDescription()}
+                        </div>";
+               }
+           }
+        ?>
     </div>
 </div>

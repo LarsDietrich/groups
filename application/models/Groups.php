@@ -6,7 +6,7 @@ class Application_Model_Groups extends Application_Model_RowAbstract
 
     public $id, $owner_id,$added,$name,$status,$tags, $location_id,$category,$description, $url;
     
-    protected $owner, $location,$events,$members;
+    protected $owner, $location,$events,$members, $activity = null;
     
     public function getId() {
         return $this->id;
@@ -136,5 +136,21 @@ class Application_Model_Groups extends Application_Model_RowAbstract
         return $this->members;
     }
     
+    /**
+     *convienence method to get all the group activity logs after specified date
+     * @return array
+     */
+    public function getGroupActivityFromTime($timestamp = NULL)
+    {
+        
+        $timestamp = (NULL === $timestamp)?strtotime("30 days ago"):intval($timestamp);
+        if(NULL == $this->activity){
+            
+            $mapper = new Application_Model_ActivityLogMapper();
+            
+            $this->activity = $mapper->getGroupActivityAfterTime($this->id, $timestamp);
+        }
+        return $this->activity;
+    }
 }
 

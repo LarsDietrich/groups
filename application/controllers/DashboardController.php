@@ -27,9 +27,30 @@ class DashboardController extends Zend_Controller_Action
     public function indexAction()
     {
         
-        
+        $groups = $this->userDetais->getGroups();
         $this->view->pageTitle = "test title";
-        $this->view->groups = $this->userDetais->getGroups();
+        $this->view->groups = $groups;
+        
+        
+        $activity = array();
+        $members = array();
+        $events = array();
+        
+        foreach($groups as $group)
+        {
+            $activity[$group->getName()]=$group->getGroupActivityFromTime();
+            $members[$group->getName()]= $group->getGroupMembers();
+            $events[$group->getName()]=$group->getGroupEventsAfterTimestamp(strtotime("30 days ago"));
+        }
+        $activegroup = $groups[0];
+        if($this->getRequest()->getParam("gid")){
+            $activegroup = (array_key_exists($this->getRequest()->getParam("gid"), $groups))?$groups[$this->getRequest()->getParam("gid")]:$activegroup;
+        }
+        $this->view->activegroup = $activegroup;
+        $this->view->activity = $activity;
+        $this->view->members = $members;
+        $this->view->events = $events;
+        
         
     }
 

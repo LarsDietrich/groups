@@ -18,3 +18,5 @@ and for javascript
 $this->view->js[] = new Application_Model_Js("something.js");
 
 you can add defaults in the bootstrap.php _initLayout() I've added style.css and also the latest jquery
+
+The layout script will then ensure these are included in your page
