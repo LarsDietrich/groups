@@ -182,7 +182,10 @@ abstract class Application_Model_RowMapperAbstract
         
         $row = $this->getDbTable()->find($value);
         $ret = $row->current();
-        return new $this->_model($ret->toArray());
+        if($ret){
+            return new $this->_model($ret->toArray());
+        }
+        return new $this->_model(array());
         
     }
 

@@ -15,7 +15,7 @@ class Application_Model_Js {
     protected $file;
     protected $fullFile = null;
     protected $filePath;
-    protected $config;
+    
     
     
     function __construct($file, $filePath=NULL) {
@@ -28,9 +28,9 @@ class Application_Model_Js {
         if(NULL === $filePath)
         {
             
-            $this->config = Zend_Registry::get("config");
+            $config = Zend_Registry::get("config");
             
-            $this->filePath = $this->config->dir->js;
+            $this->filePath = $config->dir->js;
             
         }else{
             $this->filePath = $filePath;
@@ -59,13 +59,13 @@ class Application_Model_Js {
     }
 
     public function setFilePath($filePath) {
-        $this->filePath = $filePath;
+        $this->filePath = trim($filePath);
     }
     
     public function getJs()
     {
         if(!$this->fullFile)
-            return $this->filePath.$this->file;
+            return $this->filePath.trim($this->file);
         
         return $this->fullFile;
     }

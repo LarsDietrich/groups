@@ -18,6 +18,7 @@ class Application_Plugin_GroupFilter extends Zend_Controller_Plugin_Abstract {
        if(!$group->isEmpty()){
            
            $request->setControllerName("group");
+           $request->setParam("groupname", $controller);
        }
     }
 

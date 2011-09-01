@@ -19,6 +19,7 @@ class DashboardController extends Zend_Controller_Action
             
             $this->view->userDetails = $this->userSession->userDetails;
             $this->userDetais = $this->userSession->userDetails;
+            $this->view->js[]= new Application_Model_Js("dashboard");
         }else{
             $this->_helper->redirector("signin",array("prependBase"=>false));
         }

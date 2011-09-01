@@ -18,7 +18,8 @@ class View_Helper_LayoutJs {
         $base = new Zend_View_Helper_BaseUrl();
         $html =""; 
         foreach ($js as $jsOb) {
-            if(strpos($jsOb->getJs(),"http")!== false){
+            if(strtolower(substr($jsOb->getJs(), 0,4))=="http"){
+
                 $html.="<script src='".$jsOb->getJs()."' type='text/javascript' ></script>\n";
             }else{
                 $html.="<script src='".$base->getBaseUrl().$jsOb->getJs()."' type='text/javascript' ></script>\n";

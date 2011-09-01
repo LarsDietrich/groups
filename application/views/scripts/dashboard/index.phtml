@@ -19,11 +19,23 @@
     <div style="float: left; width: 620px; background-color: burlywood; height: 420px;">
         <div class="menu" style="float: left; width: inherit; height: 35px; background-color: wheat;">
             <ul>
-                <li><a href="">Events</a></li>
-                <li><a href="">Members</a></li>
+                <li><a id="events" href="<?=$this->baseUrl().'/'.$this->activegroup->getUrl().'/events'?>">Events</a></li>
+                <li><a id="members" href="">Members</a></li>
             </ul>
         </div>
-        <p>some content not sure what yet</p>
+        <div class="ajaxdata" style="width: inherit;">
+        <?
+            if($this->activegroup && is_array($this->events[$this->activegroup->getName()])){
+                
+                foreach ($this->events[$this->activegroup->getName()] as $event) {
+                    echo "<div style='width:inherit;'>
+                                {$event->getTitle()}
+                        </div>";
+                }
+            }
+        
+        ?>
+        </div>    
     </div>
     <div style="float: left; width: 620px; background-color: cyan; height: 400px; margin-top: 10px;">
         <h3>Activity</h3>
@@ -40,4 +52,5 @@
            }
         ?>
     </div>
+    <input type="hidden" name="groupid" value="<?=$this->activegroup->id?>" />
 </div>
