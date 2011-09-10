@@ -188,5 +188,6 @@ abstract class Application_Model_RowMapperAbstract
         return new $this->_model(array());
         
     }
+    
 
 }

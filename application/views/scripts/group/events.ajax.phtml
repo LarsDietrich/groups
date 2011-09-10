@@ -1,0 +1,11 @@
+<?php foreach ($this->events as $event) :?>
+    <div style="width: inherit; float: left; border-bottom: 1px solid;">
+        
+        <div style="width: inherit; height: 20px;">
+            <?=$event->title?>
+        </div>
+        <div style="width: inherit">
+            <?=$event->description;?>
+        </div>
+    </div>
+<?php endforeach; ?>
