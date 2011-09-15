@@ -1,6 +1,6 @@
 <?php
 
-class DashboardController extends Zend_Controller_Action
+class Dashboard_IndexController extends Zend_Controller_Action
 {
 
     protected $userSession;
@@ -8,27 +8,31 @@ class DashboardController extends Zend_Controller_Action
      *
      * @var Application_Model_SiteUsers 
      */
-    protected $userDetais;
+    protected $userDetails;
+    
+    
+    
 
-    public function init()
+     public function init()
     {
         /* Initialize action controller here */
-        $this->userSession = Zend_Registry::get("user_session");
-         if($this->userSession->userDetails)
-        {
-            
-            $this->view->userDetails = $this->userSession->userDetails;
-            $this->userDetais = $this->userSession->userDetails;
-            $this->view->js[]= new Application_Model_Js("dashboard");
+        $auth = Zend_Auth::getInstance();
+        
+        if($auth->hasIdentity()){
+              $this->view->js[] = new Application_Model_Js("dashboard");
+              $this->userDetails = $auth->getIdentity();
+              $this->view->userDetails = $this->userDetails;
         }else{
-            $this->_helper->redirector("signin",array("prependBase"=>false));
+            $this->_redirect("/signin");
         }
+        
+        
     }
 
     public function indexAction()
     {
         
-        $groups = $this->userDetais->getGroups();
+        $groups = $this->userDetails->getGroups();
         $this->view->pageTitle = "test title";
         $this->view->groups = $groups;
         

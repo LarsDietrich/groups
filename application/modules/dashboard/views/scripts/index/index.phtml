@@ -1,0 +1,56 @@
+<h2>Dashboard For <?=$this->userDetails->handle?></h2>
+<p>
+    <a href='<?=$this->baseUrl().'/siteuser/signout'; ?>'>sign out</a>
+</p>
+
+<div style="width: 960px; margin: auto;">
+    <div style="float: left; width: 330px; background-color: #0398CA; height: 880px; margin-right: 10px;">
+        <h4 style="text-align: center">Your Groups</h4>
+        <?
+            if(!empty ($this->groups)){
+                echo $this->layoutGroups($this->groups);
+            }else{
+                
+            }
+        
+        ?>
+        
+    </div>
+    <div style="float: left; width: 620px; background-color: burlywood; height: 420px;">
+        <div class="menu" style="float: left; width: inherit; height: 35px; background-color: wheat;">
+            <ul>
+                <li><a id="events" href="<?=$this->baseUrl().'/'.$this->activegroup->getUrl().'/events'?>">Events</a></li>
+                <li><a id="members" href="">Members</a></li>
+            </ul>
+        </div>
+        <div class="ajaxdata" style="width: inherit;">
+        <?
+            if($this->activegroup && is_array($this->events[$this->activegroup->getName()])){
+                
+                foreach ($this->events[$this->activegroup->getName()] as $event) {
+                    echo "<div style='width:inherit;'>
+                                {$event->getTitle()}
+                        </div>";
+                }
+            }
+        
+        ?>
+        </div>    
+    </div>
+    <div style="float: left; width: 620px; background-color: cyan; height: 400px; margin-top: 10px;">
+        <h3>Activity</h3>
+        <?
+        //move t
+           if($this->activegroup && is_array($this->activity[$this->activegroup->getName()]))
+           {
+               foreach($this->activity[$this->activegroup->getName()] as $activity)
+               {
+                   echo "<div style='width:inherit;'>
+                              {$activity->getDescription()}
+                        </div>";
+               }
+           }
+        ?>
+    </div>
+    <input type="hidden" name="groupid" value="<?=$this->activegroup->id?>" />
+</div>

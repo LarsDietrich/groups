@@ -84,19 +84,27 @@ class SiteUserController extends Zend_Controller_Action
         if(!$this->getRequest()->isPost()){
             $this->view->form = $form;
         }else if($this->getRequest()->isPost() && $form->isValid($this->getRequest()->getPost())){
-            $username = $this->getRequest()->getParam("handle");
-            $password = $this->getRequest()->getParam("password");
-            $user = new Application_Model_SiteUsers(array("handle"=>$username,"password"=>$password));
-            $mapper = new Application_Model_SiteUsersMapper();
-            $foundUser = $mapper->findRowByExample($user);
+            $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+        
+            $authAdapter->setTableName('siteusers')
+            ->setIdentityColumn('handle')
+            ->setCredentialColumn('password');
             
-            if($foundUser->isEmpty()!=true)
-            {
-                $this->userSession->userDetails = $foundUser;
-                $this->userSession->firstTime = FALSE;
-                $this->_helper->redirector("dashboard",array("prependBase"=>false));
-                
-            }else{
+        
+            $authAdapter->setIdentity($this->getRequest()->getParam("handle")); 
+            $authAdapter->setCredential($this->getRequest()->getParam("password"));
+
+            $auth = Zend_Auth::getInstance();
+            $result = $auth->authenticate($authAdapter);
+        if ($result->isValid()) {
+            $user = $authAdapter->getResultRowObject();
+            $user = new Application_Model_SiteUsers((array)$user);
+            $auth->getStorage()->write($user);
+            $this->_redirect("/dashboard/");
+            
+            
+        }else{
                 $this->_helper->FlashMessenger->addMessage("username or password incorrect");
                 $this->_helper->redirector("signin",array("prependBase"=>false));
             }
@@ -111,9 +119,11 @@ class SiteUserController extends Zend_Controller_Action
      */
     public function signoutAction()
     {
-        $this->userSession->unsetAll();
+        echo "called";
+        $auth = Zend_Auth::getInstance();
+        $auth->clearIdentity();
         $redirect = ($this->getRequest()->getParam("returnto")==NULL)?$this->getFrontController()->getBaseUrl():$this->getRequest()->getParam("returnto");
-        $this->_helper->redirector("","");
+        $this->_helper->redirector("signin",array("prependBase"=>false));
     }
 
 

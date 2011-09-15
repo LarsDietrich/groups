@@ -54,7 +54,7 @@ class Application_Model_Members extends Application_Model_RowAbstract
             if(!isset($this->group))
             {
                 $mapper = new Application_Model_GroupsMapper();
-                $this->siteuser = $mapper->findWherePriKeyEquals($this->group_id);
+                $this->group = $mapper->findWherePriKeyEquals($this->group_id);
             }
             return $this->group;
         }
