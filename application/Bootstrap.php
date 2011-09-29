@@ -12,7 +12,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $front = Zend_Controller_Front::getInstance();
         $router = $front->getRouter();
         
-        $route = new Zend_Controller_Router_Route('/join', array("controller"=>"siteuser"));
+        $route = new Zend_Controller_Router_Route('/join', array("controller"=>"siteuser","module"=>"default"));
         $router->addRoute("join",$route);
         
         /*
@@ -21,7 +21,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
          */
         
-        $route = new Zend_Controller_Router_Route('/signin',array("controller"=>"siteuser","action"=>"signin"));
+        $route = new Zend_Controller_Router_Route('/signin',array("controller"=>"siteuser","action"=>"signin","module"=>"default"));
         $router->addRoute("signin",$route);
         
         
@@ -67,29 +67,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $moduleLoader = new Zend_Application_Module_Autoloader(array(
                     'namespace' => 'Dashboard_',
                     'basePath' => APPLICATION_PATH . '/modules/dashboard'));
+        
+        $autoloader  = Zend_Loader_Autoloader::getInstance();
+        $autoloader->registerNamespace("App_");
 
         
-        return $moduleLoader;
+        
     }
     
-    
-    protected function _initAcl()
+     protected function _initAcl()
     {
-        //should possibly move to module bootstrap
+        
+         //should possibly move to module bootstrap
         $front = Zend_Controller_Front::getInstance();
-        $front->registerPlugin(new Application_Plugin_AuthFilter(Zend_Auth::getInstance(),new Application_Model_Acl_Acl()));
+        $front->registerPlugin(new Application_Plugin_AuthFilter(Zend_Auth::getInstance(),new App_Acl_Acl()));
     }
-    
-    
-    
-    
-    
-
-
-
-
-    
-    
     
     
         

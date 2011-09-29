@@ -63,7 +63,7 @@ class Application_Model_Groups extends Application_Model_RowAbstract
         if(! isset($this->name) )
                 throw new Application_Exception_ModelException ("no name set for creating a url from ".__CLASS__."::name must be set");
         
-        $this->url =  preg_replace('/[^A-Za-z0-9_-]+/', '-', $this->name);
+        $this->url = strtolower( preg_replace('/[^A-Za-z0-9_-]+/', '-', $this->name) );
         
         
     }

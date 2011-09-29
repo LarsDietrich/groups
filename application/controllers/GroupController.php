@@ -15,9 +15,12 @@ class GroupController extends Zend_Controller_Action
 
     public function init()
     {
-        $ajaxContext = $this->_helper->getHelper('AjaxContext');
-        $ajaxContext->addActionContext('events', 'html')
-                ->initContext();
+        if($this->getRequest()->getParam("format")){
+            $ajaxContext = $this->_helper->getHelper('AjaxContext');
+            $ajaxContext->addActionContext("members",'html');
+            $ajaxContext->addActionContext('events', 'html');
+            $ajaxContext->initContext();
+        }
         
         $mapper = new Application_Model_GroupsMapper();
         
@@ -47,14 +50,16 @@ class GroupController extends Zend_Controller_Action
         // action body
         
         $modelMapper = new Application_Model_EventsMapper();
-        $events = $modelMapper->getEventsByGroupIdAndAfterDate($this->groupid, strtotime("30 days ago"));
+        $events = $modelMapper->getEventsByGroupIdAndAfterDate($this->groupid, strtotime("90 days ago"));
         $this->view->events = $events;
+        
     }
     
     public function membersAction()
     {
         $modelMapper = new Application_Model_MembersMapper();
         $this->view->members = $modelMapper->findAllByFieldsAndValues(array("group_id"=>$this->groupid));
+        echo __FUNCTION__;
     }
 
 

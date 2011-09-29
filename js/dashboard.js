@@ -23,7 +23,7 @@ function getGroupEvents()
 
 function getGroupMembers()
 {
-    $.get("/Groups/member/members/groupid/"+groupid+"/format/html",function(data){
+    $.get("/Groups/group/members/groupid/"+groupid+"/format/html",function(data){
         $('div.ajaxdata').html(data);
     });
     
