@@ -15,24 +15,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $route = new Zend_Controller_Router_Route('/join', array("controller"=>"siteuser"));
         $router->addRoute("join",$route);
         
-        /*
-        $route = new Zend_Controller_Router_Route('/dashboard',array("controller"=>"dashboard"));
-        $router->addRoute("dashboard",$route);
-
-         */
+        $route = new Zend_Controller_Router_Route('/create', array("controller" => "creategroup"));
+        $router->addRoute("create", $route);
+        
+        $route = new Zend_Controller_Router_Route('/create/process', array("controller" => "creategroup", "action" => "process"));
+        $router->addRoute("create/process", $route);
         
         $route = new Zend_Controller_Router_Route('/signin',array("controller"=>"siteuser","action"=>"signin"));
         $router->addRoute("signin",$route);
         
+        $route = new Zend_Controller_Router_Route('/signout', array("controller" => "auth", "action" => "signout"));
+        $router->addRoute("signout", $route);    
         
+        // $route = new Zend_Controller_Router_Route('/dashboard',array("controller"=>"dashboard"));
+        // $router->addRoute("dashboard",$route);
         
-        $front->registerPlugin(new Application_Plugin_GroupFilter());
-        
-        //check if it is a group else ignore
-        
+        // check if it is a group else ignore
+        $front->registerPlugin(new Application_Plugin_GroupFilter());       
     }
     
-    protected function _initRegisteryValues()
+    protected function _initRegistryValues()
     {
         Zend_Registry::set("counties", array("antrim","armagh","carlow","cavan","clare",
         "cork","derry","donegal","down","dublin","fermanagh",

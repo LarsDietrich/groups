@@ -26,10 +26,14 @@
         <controllerFile controllerName="Member">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="CreateGroup">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Join"/>
         <formFile formName="Signin"/>
+        <formFile formName="CreateGroup"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -116,6 +120,9 @@
           <viewControllerScriptsDirectory forControllerName="Member">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="CreateGroup">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -154,6 +161,7 @@
           <testApplicationControllerFile filesystemName="DashboardControllerTest.php"/>
           <testApplicationControllerFile filesystemName="GroupControllerTest.php"/>
           <testApplicationControllerFile filesystemName="MemberControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="CreateGroupControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>
