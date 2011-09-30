@@ -12,17 +12,19 @@ class Application_Plugin_GroupFilter extends Zend_Controller_Plugin_Abstract {
     
     public function preDispatch(Zend_Controller_Request_Abstract $request) {
        
-       $controller = $request->getControllerName();
-       $groupMapper = new Application_Model_GroupsMapper();
-       $group = $groupMapper->findRowByFieldsAndValues(array("url"=>$controller));
-      
-       if(!$group->isEmpty()){
-           $userSess = Zend_Registry::get("user_session");
-           $userSess->isGroup = TRUE;
-           $userSess->groupName = $controller;
-           $request->setControllerName("group");
-           $request->setParam("groupname", $controller);
-       }
+        if($request->getModuleName() && $request->getModuleName() != "default"){
+           $controller = $request->getControllerName();
+           $groupMapper = new Application_Model_GroupsMapper();
+           $group = $groupMapper->findRowByFieldsAndValues(array("url"=>$controller));
+
+           if(!$group->isEmpty()){
+               $userSess = Zend_Registry::get("user_session");
+               $userSess->isGroup = TRUE;
+               $userSess->groupName = $controller;
+               $request->setControllerName("group");
+               $request->setParam("groupname", $controller);
+          }
+        }
     }
 
 }

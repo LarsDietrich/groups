@@ -15,14 +15,14 @@ class View_Helper_LayoutGroups {
         
        
         $html="";
-        
+        $base = new Zend_View_Helper_BaseUrl();
         foreach ($groups as $g) {
            if(!$g instanceof Application_Model_Groups) 
                throw new Application_Exception_ModelException ("the layout function ".__FUNCTION__." requires an array with instances of Application_Model_Groups ");
            else{
 
             $html.="<div style='width:inherit;'>
-                       <a href='".$g->getUrl()."'><h4>".$g->getName()."</h4></a>
+                       <a href='".$base->getBaseUrl()."/dashboard/show/group/name/".$g->getUrl()."'><h4>".$g->getName()."</h4></a>
                     </div>";
            }
         }
