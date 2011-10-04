@@ -17,7 +17,7 @@ class Application_Form_CreateGroup extends Zend_Form
                 'required' => true,
                 'label' => 'Group Name:',
                 'filters' => array('StringTrim'),
-                'validators' => array(new zend_vali
+                'validators' => array(
                     
                 )
         )),
